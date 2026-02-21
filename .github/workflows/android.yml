@@ -41,8 +41,17 @@ jobs:
       - name: Add Android Platform
         run: npx cap add android || echo "Platform might already exist"
 
+      - name: Generate App Assets
+        run: |
+          if [ -f assets/logo.png ]; then
+            npx @capacitor/assets generate --android --iconSource assets/logo.png --splashSource assets/logo.png
+          fi
+
       - name: Sync Capacitor
         run: npx cap sync
+
+      - name: Set up Gradle
+        run: chmod +x android/gradlew
 
       - name: Build Android Project
         working-directory: android
