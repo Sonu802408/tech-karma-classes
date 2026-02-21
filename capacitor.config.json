@@ -1,0 +1,9 @@
+{
+  "appId": "com.techkarmaclasses.app",
+  "appName": "Tech Karma Classes",
+  "webDir": "www",
+  "server": {
+    "url": "https://tech-karma-classes.vercel.app",
+    "cleartext": true
+  }
+}
