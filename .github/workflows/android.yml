@@ -31,6 +31,13 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Generate App Assets
+        run: |
+          mkdir -p assets
+          if [ -f assets/logo.png ]; then
+            npx @capacitor/assets generate --android --iconSource assets/logo.png --splashSource assets/logo.png
+          fi
+
       - name: Add Android Platform
         run: npx cap add android || echo "Platform might already exist"
 
