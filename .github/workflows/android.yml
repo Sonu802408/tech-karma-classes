@@ -47,7 +47,7 @@ jobs:
       - name: Generate App Assets
         run: |
           if [ -f assets/logo.png ]; then
-            npx capacitor-assets generate --android --iconSource assets/logo.png --splashSource assets/logo.png
+            npx @capacitor/assets generate --android
           fi
 
       - name: Sync Capacitor
