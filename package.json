@@ -9,7 +9,8 @@
     "cap:sync": "cap sync",
     "cap:update": "cap update",
     "android:add": "cap add android",
-    "android:open": "cap open android"
+    "android:open": "cap open android",
+    "build": "echo 'Building static site...' && exit 0"
   },
   "keywords": [],
   "author": "",
