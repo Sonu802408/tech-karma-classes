@@ -2,7 +2,9 @@ name: Build Android APK
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
+      - master
   workflow_dispatch:
 
 jobs:
@@ -23,9 +25,16 @@ jobs:
         run: npm install
 
       - name: Build Web Assets
-        run: npm run build
+        run: |
+          npm run build
+          # Ensure www directory exists and has content for Capacitor
+          if [ ! -d "www" ]; then mkdir www; fi
+          # If build folder is different, copy it to www or link it
+          # For simple static sites at root:
+          cp index.html www/ || true
+          cp -r js css assets www/ || true
 
-      - name: Set up Java
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -34,23 +43,10 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Generate App Assets
-        run: |
-          mkdir -p assets
-          if [ -f assets/logo.png ]; then
-            npx @capacitor/assets generate --android --iconSource assets/logo.png --splashSource assets/logo.png
-          fi
-
       - name: Add Android Platform
         run: |
           if [ ! -d "android" ]; then
             npx cap add android
-          fi
-
-      - name: Generate App Assets
-        run: |
-          if [ -f assets/logo.png ]; then
-            npx @capacitor/assets generate --android
           fi
 
       - name: Sync Capacitor
