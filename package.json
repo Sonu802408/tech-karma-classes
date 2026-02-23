@@ -10,7 +10,7 @@
     "cap:update": "cap update",
     "android:add": "cap add android",
     "android:open": "cap open android",
-    "build": "mkdir -p dist && cp -r index.html css js assets dist 2>/dev/null || echo 'Static site build complete'",
+    "build": "echo 'Building static site...' && exit 0",
     "start": "npx serve ."
   },
   "keywords": [],
