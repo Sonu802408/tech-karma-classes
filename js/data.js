@@ -1,39 +1,63 @@
 const siteData = {
     classGroups: ['6', '7', '8', '9', '10', '11', '12'],
-    subjects: [
-        { id: 'maths', name: 'Mathematics', icon: '📐' },
-        { id: 'science', name: 'Science', icon: '🔬' },
-        { id: 'english', name: 'English', icon: '📚' },
-        { id: 'sst', name: 'Social Studies', icon: '🌍' }
-    ],
-    notes: {},
+    mediums: ['English', 'Hindi'],
+    streams: ['Science', 'Arts', 'Commerce'],
+    contentSections: ['Notes', 'NCERT Solutions', 'MCQ', 'Books', 'Sample Papers'],
+    subjects: {
+        'default': [
+            { id: 'maths', name: 'Mathematics', icon: '📐' },
+            { id: 'science', name: 'Science', icon: '🔬' },
+            { id: 'english', name: 'English', icon: '📚' },
+            { id: 'sst', name: 'Social Studies', icon: '🌍' },
+            { id: 'hindi', name: 'Hindi', icon: '✍️' }
+        ],
+        'Science': [
+            { id: 'physics', name: 'Physics', icon: '⚛️' },
+            { id: 'chemistry', name: 'Chemistry', icon: '🧪' },
+            { id: 'maths', name: 'Mathematics', icon: '📐' },
+            { id: 'biology', name: 'Biology', icon: '🧬' },
+            { id: 'english', name: 'English', icon: '📚' }
+        ],
+        'Arts': [
+            { id: 'history', name: 'History', icon: '📜' },
+            { id: 'geography', name: 'Geography', icon: '🗺️' },
+            { id: 'pol-science', name: 'Political Science', icon: '⚖️' },
+            { id: 'economics', name: 'Economics', icon: '📈' },
+            { id: 'english', name: 'English', icon: '📚' }
+        ],
+        'Commerce': [
+            { id: 'accountancy', name: 'Accountancy', icon: '📊' },
+            { id: 'business-studies', name: 'Business Studies', icon: '💼' },
+            { id: 'economics', name: 'Economics', icon: '📈' },
+            { id: 'maths', name: 'Mathematics', icon: '📐' },
+            { id: 'english', name: 'English', icon: '📚' }
+        ]
+    },
+    notes: {}, // Will hold the nested structure
     courseCategories: [
         {
-            title: "Core Programming",
+            title: "Programming & Coding",
             courses: [
                 { id: 'python', name: 'Python Mastery', description: 'Master Python from basics to advanced data handling and automation.', icon: '🐍', duration: '3 Months', price: '₹4,999', popular: true, features: ['Core Python & Advanced Modules', 'Web Scrapping & Automation', 'Real-world Projects', 'Certificate of Completion'] },
-                { id: 'c', name: 'C Foundation', description: 'Learn the foundations of programming with the powerful C language.', icon: '💻', duration: '2 Months', price: '₹2,999', features: ['Logic Building & Algorithms', 'Memory Management', 'Data Structures Intro', 'Weekly Assignments'] },
-                { id: 'cpp', name: 'C++ Programming', description: 'Deep dive into Object-Oriented Programming and performance-driven code.', icon: '🚀', duration: '3 Months', price: '₹3,499', features: ['OOPs deep dive', 'STL (Standard Template Library)', 'Competitive Coding Prep', 'Project Implementation'] },
-                { id: 'java', name: 'Java Enterprise', description: 'Build robust, scalable applications with industry-standard Java.', icon: '☕', duration: '4 Months', price: '₹5,999', features: ['Core Java & Multithreading', 'Database Connectivity (JDBC)', 'Spring Boot Framework', 'Enterprise Level Projects'] }
+                { id: 'web-dev', name: 'Full Stack Web Dev', description: 'Build modern responsive websites using HTML, CSS, JavaScript, and React.', icon: '🌐', duration: '6 Months', price: '₹9,999', popular: true, features: ['Frontend & Backend', 'Database Integration', 'Deployment Skills', 'Portfolio Projects'] },
+                { id: 'java', name: 'Java Enterprise', description: 'Build robust, scalable applications with industry-standard Java.', icon: '☕', duration: '4 Months', price: '₹5,999', features: ['Core Java & Multithreading', 'Database Connectivity (JDBC)', 'Spring Boot Framework', 'Enterprise Level Projects'] },
+                { id: 'cpp', name: 'C++ Programming', description: 'Deep dive into Object-Oriented Programming and performance-driven code.', icon: '🚀', duration: '3 Months', price: '₹3,499', features: ['OOPs deep dive', 'STL Mastery', 'Competitive Coding Prep', 'Project Implementation'] }
             ]
         },
         {
-            title: "Core Computer Science Subjects",
+            title: "Computer Basics & Professional Tools",
             courses: [
-                { id: 'oop', name: 'OOP', description: 'Master Object-Oriented Programming principles and design patterns.', icon: '🏗️' },
-                { id: 'dsa', name: 'Data Structures & Algorithms', description: 'Learn to solve complex problems with efficient algorithms and data structures.', icon: '🧠' },
-                { id: 'dbms', name: 'DBMS', description: 'Comprehensive study of Database Management Systems and SQL.', icon: '📊' },
-                { id: 'os', name: 'Operating System', description: 'Understand the internals of process management, memory, and file systems.', icon: '🖥️' },
-                { id: 'coa', name: 'Computer Organization & Architecture', description: 'Explore the fundamental architecture and organization of computers.', icon: '🔌' },
-                { id: 'se', name: 'Software Engineering', description: 'Learn professional software development life cycles and methodologies.', icon: '⚙️' },
-                { id: 'we', name: 'Web Engineering', description: 'End-to-end web system design, deployment, and maintenance.', icon: '🌐' }
+                { id: 'basic-cc', name: 'Computer Concepts (CCC)', description: 'Perfect for beginners to learn computer operations and internet basics.', icon: '🖥️', duration: '2 Months', price: '₹1,499', features: ['Computer Basics', 'OS (Windows/Linux)', 'Internet & Email', 'Digital Literacy Certificate'] },
+                { id: 'ms-office', name: 'MS Office Specialist', description: 'Master Word, Excel, and PowerPoint for professional productivity.', icon: '📊', duration: '2 Months', price: '₹2,499', features: ['Advanced Excel Formulas', 'Professional Word Layouts', 'Impactful PowerPoint', 'Mock Projects'] },
+                { id: 'graphic-design', name: 'Graphic Designing', description: 'Create stunning visuals using Photoshop, Illustrator, and Canva.', icon: '🎨', duration: '4 Months', price: '₹5,499', features: ['Design Principles', 'Branding & Identity', 'Vector Illustration', 'Project Portfolio'] },
+                { id: 'tally', name: 'Tally Prime with GST', description: 'Comprehensive accounting and taxation course for business.', icon: '💸', duration: '3 Months', price: '₹3,999', features: ['Accounting Fundamentals', 'GST Concepts & Filing', 'Inventory Management', 'Live Projects'] }
             ]
         },
         {
-            title: "Advanced Technologies",
+            title: "Advanced Tech Subjects",
             courses: [
-                { id: 'ai', name: 'AI Specialist', description: 'Introduction to intelligent agents, search algorithms, and logic.', icon: '🤖', duration: '4 Months', price: '₹7,999', features: ['Neural Networks & Deep Learning', 'Natural Language Processing', 'Computer Vision Basics', 'Expert Mentorship'] },
-                { id: 'ml', name: 'ML Engineer', description: 'Master key ML algorithms, data modeling, and predictive analysis.', icon: '📈', duration: '3 Months', price: '₹6,499', features: ['Supervised & Unsupervised Learning', 'Data Visualization (Matplotlib)', 'Scikit-Learn Mastery', 'End-to-end ML Pipelines'] }
+                { id: 'dsa', name: 'Data Structures & Algorithms', description: 'Crack top tier interviews with strong DSA fundamentals.', icon: '🧠', duration: '4 Months', price: '₹4,999', features: ['Array, List, Tree, Graph', 'Dynamic Programming', 'Complexity Analysis', 'Interview Questions'] },
+                { id: 'cyber-security', name: 'Cyber Security', description: 'Learn ethical hacking and how to protect digital assets.', icon: '🛡️', duration: '4 Months', price: '₹6,999', features: ['Network Security', 'Ethical Hacking', 'Web Security', 'Incident Response'] }
             ]
         }
     ],
@@ -85,41 +109,92 @@ const siteData = {
                 <p>At Tech Karma Classes, we are integrating AI into our curriculum to provide students with the most advanced learning experience possible.</p>
             `
         }
+    ],
+    exams: [
+        {
+            id: 'exam-10',
+            class: '10',
+            title: 'Class 10 - Mathematics Mock Test',
+            questions: [
+                { q: 'What is the value of Pi (approx)?', a: ['3.14', '2.14', '4.14', '1.14'], correct: 0 },
+                { q: 'Which of the following is a prime number?', a: ['4', '6', '8', '7'], correct: 3 },
+                { q: 'The square root of 144 is?', a: ['10', '11', '12', '13'], correct: 2 }
+            ]
+        },
+        {
+            id: 'exam-12-science',
+            class: '12',
+            stream: 'Science',
+            title: 'Class 12 - Physics Revision Test',
+            questions: [
+                { q: 'Unit of Force is?', a: ['Watt', 'Newton', 'Pascal', 'Joule'], correct: 1 },
+                { q: 'Speed of Light is approx?', a: ['2x10^8 m/s', '3x10^8 m/s', '4x10^8 m/s', '5x10^8 m/s'], correct: 1 }
+            ]
+        }
     ]
 };
-
-
 
 const realisticChapters = {
     '9-maths': ['Real Numbers', 'Polynomials', 'Pair of Linear Equations', 'Quadratic Equations', 'Arithmetic Progressions'],
     '10-maths': ['Probability', 'Statistics', 'Coordinate Geometry', 'Triangles', 'Introduction to Trigonometry'],
-    '9-science': ['Chemical Reactions', 'Acids, Bases and Salts', 'Metals and Non-metals', 'Life Processes', 'Control and Coordination'],
-    '10-science': ['Light Reflection', 'Human Eye', 'Electricity', 'Magnetic Effects', 'Our Environment'],
-    '11-physics': ['Electric Charges and Fields', 'Electrostatic Potential', 'Current Electricity', 'Moving Charges', 'Magnetism and Matter'],
-    '12-physics': ['Electromagnetic Waves', 'Ray Optics', 'Wave Optics', 'Dual Nature of Radiation', 'Atoms'],
-    '11-chemistry': ['Solutions', 'Electrochemistry', 'Chemical Kinetics', 'd-and f-Block Elements', 'Coordination Compounds'],
-    '12-chemistry': ['Haloalkanes', 'Phenols', 'Aldehydes', 'Amines', 'Biomolecules']
+    '11-Science-physics': ['Physical World', 'Units and Measurements', 'Motion in a Straight Line', 'Motion in a Plane', 'Laws of Motion'],
+    '12-Science-physics': ['Electric Charges and Fields', 'Electrostatic Potential', 'Current Electricity', 'Moving Charges', 'Magnetism and Matter']
 };
 
-// Populate dummy notes data
-siteData.classGroups.forEach(group => {
-    siteData.notes[group] = {};
-    siteData.subjects.forEach(sub => {
-        const key = `${group}-${sub.id}`;
-        const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Basics`);
+// Populate dummy data with new hierarchy
+siteData.classGroups.forEach(cls => {
+    siteData.notes[cls] = {};
+    const isHigherSec = ['11', '12'].includes(cls);
 
-        siteData.notes[group][sub.id] = {
-            subjectName: sub.name,
-            chapters: chapterTitles.map((title, i) => ({
-                id: i + 1,
-                title: title,
-                pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
-                description: `Comprehensive study notes for ${title} for Class ${group}.`
-            }))
-        };
-    });
+    if (isHigherSec) {
+        siteData.streams.forEach(stream => {
+            siteData.notes[cls][stream] = {};
+            siteData.mediums.forEach(medium => {
+                siteData.notes[cls][stream][medium] = {};
+                siteData.contentSections.forEach(section => {
+                    const subjectsList = siteData.subjects[stream] || siteData.subjects['default'];
+                    siteData.notes[cls][stream][medium][section] = {};
+                    subjectsList.forEach(sub => {
+                        const key = `${cls}-${stream}-${sub.id}`;
+                        const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
+                        siteData.notes[cls][stream][medium][section][sub.id] = {
+                            subjectName: sub.name,
+                            icon: sub.icon,
+                            chapters: chapterTitles.map((title, i) => ({
+                                id: i + 1,
+                                title: title,
+                                pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
+                                description: `Comprehensive ${section} for ${title} (${cls} ${stream} - ${medium} Medium).`
+                            }))
+                        };
+                    });
+                });
+            });
+        });
+    } else {
+        siteData.mediums.forEach(medium => {
+            siteData.notes[cls][medium] = {};
+            siteData.contentSections.forEach(section => {
+                const subjectsList = siteData.subjects['default'];
+                siteData.notes[cls][medium][section] = {};
+                subjectsList.forEach(sub => {
+                    const key = `${cls}-${sub.id}`;
+                    const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
+                    siteData.notes[cls][medium][section][sub.id] = {
+                        subjectName: sub.name,
+                        icon: sub.icon,
+                        chapters: chapterTitles.map((title, i) => ({
+                            id: i + 1,
+                            title: title,
+                            pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
+                            description: `Comprehensive ${section} for ${title} (${cls} - ${medium} Medium).`
+                        }))
+                    };
+                });
+            });
+        });
+    }
 });
-
 
 export default siteData;
 

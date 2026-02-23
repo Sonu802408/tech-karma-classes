@@ -1,5 +1,5 @@
 import siteData from './data.js';
-import { Navbar, Footer, ClassCard, SubjectCard, ChapterItem, Breadcrumbs, WhatsAppButton, CourseCard, EnrollmentForm, SignupForm, LoginForm, StudentDashboard, AdminLogin, AdminDashboard, PricingCard, BlogCard, BlogPostView } from './components.js';
+import { Navbar, Footer, ClassCard, SubjectCard, ChapterItem, Breadcrumbs, WhatsAppButton, CourseCard, EnrollmentForm, SignupForm, LoginForm, StudentDashboard, AdminLogin, AdminDashboard, PricingCard, BlogCard, BlogPostView, SelectionCard, SectionTabs, ExamPortalSelection, StreamSelectorModal, ExamInterface, ResultModal } from './components.js';
 
 
 const app = document.getElementById('app');
@@ -164,61 +164,147 @@ const routes = {
         `);
     },
 
-    subjects: (classId) => {
-        const subjectsHtml = siteData.subjects.map(sub => SubjectCard(classId, sub)).join('');
-        render(`
-            ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }])}
-            <section class="container">
-                <div class="section-title">
-                    <h1>Class ${classId} Subjects</h1>
-                    <p>Choose a subject to see available chapters</p>
-                </div>
-                <div class="grid">${subjectsHtml}</div>
-            </section>
-        `);
-    },
+    classSelection: (parts) => {
+        const classId = parts[2];
+        const isHigherSec = ['11', '12'].includes(classId);
 
-    chapters: (classId, subjectId) => {
-        const data = siteData.notes[classId][subjectId];
-        const chaptersHtml = data.chapters.map(ch => ChapterItem(classId, subjectId, ch)).join('');
-        render(`
-            ${Breadcrumbs([
-            { name: 'Home', link: '#/' },
-            { name: `Class ${classId}`, link: `#/class/${classId}` },
-            { name: data.subjectName, link: `#/class/${classId}/subject/${subjectId}` }
-        ])}
-            <section class="container">
-                <div class="section-title">
-                    <h1>${data.subjectName} - Class ${classId}</h1>
-                    <p>Download or view chapter-wise notes below</p>
-                </div>
-                <div class="grid">${chaptersHtml}</div>
-            </section>
-        `);
-    },
+        if (isHigherSec) {
+            // Class 11/12 logic
+            const stream = parts[3];
+            const medium = parts[4];
+            const section = parts[5];
+            const subjectId = parts[6];
+            const chapterId = parts[8];
 
-    viewer: (classId, subjectId, chapterId) => {
-        const subData = siteData.notes[classId][subjectId];
-        const chapter = subData.chapters.find(ch => ch.id == chapterId);
-        render(`
-            ${Breadcrumbs([
-            { name: 'Home', link: '#/' },
-            { name: `Class ${classId}`, link: `#/class/${classId}` },
-            { name: subData.subjectName, link: `#/class/${classId}/subject/${subjectId}` },
-            { name: chapter.title, link: '' }
-        ])}
-            <section class="container">
-                <div class="section-title">
-                    <h1>${chapter.title}</h1>
-                </div>
-                <div class="pdf-viewer-container">
-                    <iframe src="${chapter.pdfUrl}#toolbar=0" title="PDF Viewer"></iframe>
-                </div>
-                <div style="text-align: center; margin-bottom: 40px;">
-                    <a href="${chapter.pdfUrl}" class="btn" style="background: #28a745; padding: 15px 40px;" download>Download PDF</a>
-                </div>
-            </section>
-        `);
+            if (chapterId) {
+                const subData = siteData.notes[classId][stream][medium][section][subjectId];
+                const chapter = subData.chapters.find(ch => ch.id == chapterId);
+                render(`
+                    ${Breadcrumbs([
+                    { name: 'Home', link: '#/' },
+                    { name: `Class ${classId}`, link: `#/class/${classId}` },
+                    { name: stream, link: `#/class/${classId}/${stream}` },
+                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${stream}/${medium}/${section}` },
+                    { name: subData.subjectName, link: `#/class/${classId}/${stream}/${medium}/${section}/${subjectId}` },
+                    { name: chapter.title, link: '' }
+                ])}
+                    <section class="container">
+                        <div class="section-title"><h1>${chapter.title}</h1></div>
+                        <div class="pdf-viewer-container"><iframe src="${chapter.pdfUrl}#toolbar=0"></iframe></div>
+                        <div style="text-align: center; margin-bottom: 40px;"><a href="${chapter.pdfUrl}" class="btn btn-glow" download>Download PDF</a></div>
+                    </section>
+                `);
+            } else if (subjectId) {
+                const data = siteData.notes[classId][stream][medium][section][subjectId];
+                const chaptersHtml = data.chapters.map(ch => ChapterItem(classId, subjectId, ch)).join('');
+                render(`
+                    ${Breadcrumbs([
+                    { name: 'Home', link: '#/' },
+                    { name: `Class ${classId}`, link: `#/class/${classId}` },
+                    { name: stream, link: `#/class/${classId}/${stream}` },
+                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${stream}/${medium}/${section}` },
+                    { name: data.subjectName, link: '' }
+                ])}
+                    <section class="container">
+                        <div class="section-title"><h1>${data.subjectName} (${section})</h1><p>Class ${classId} - ${stream} - ${medium} Medium</p></div>
+                        <div class="grid">${chaptersHtml}</div>
+                    </section>
+                `);
+            } else if (section) {
+                const subjects = siteData.notes[classId][stream][medium][section];
+                const subjectsHtml = Object.keys(subjects).map(id => SubjectCard(subjects[id], `#/class/${classId}/${stream}/${medium}/${section}/${id}`)).join('');
+                render(`
+                    ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }, { name: stream, link: `#/class/${classId}/${stream}` }, { name: `${medium} Medium`, link: '' }])}
+                    <section class="container">
+                        <div class="section-title"><h1>Select Subject</h1><p>${classId} ${stream} - ${medium} Medium</p></div>
+                        ${SectionTabs(section, `#/class/${classId}/${stream}/${medium}`)}
+                        <div class="grid">${subjectsHtml}</div>
+                    </section>
+                `);
+            } else if (medium) {
+                window.location.hash = `#/class/${classId}/${stream}/${medium}/Notes`;
+            } else if (stream) {
+                const mediumsHtml = siteData.mediums.map(m => SelectionCard(m, m === 'Hindi' ? '✍️' : '📚', `#/class/${classId}/${stream}/${m}`)).join('');
+                render(`
+                    ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }, { name: stream, link: '' }])}
+                    <section class="container">
+                        <div class="section-title"><h1>Select Medium</h1><p>Class ${classId} - ${stream} Stream</p></div>
+                        <div class="grid">${mediumsHtml}</div>
+                    </section>
+                `);
+            } else {
+                const streamsHtml = siteData.streams.map(s => SelectionCard(s, s === 'Science' ? '🔬' : s === 'Arts' ? '🎨' : '📊', `#/class/${classId}/${s}`)).join('');
+                render(`
+                    ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: '' }])}
+                    <section class="container">
+                        <div class="section-title"><h1>Select Stream</h1><p>Choose your study path for Class ${classId}</p></div>
+                        <div class="grid">${streamsHtml}</div>
+                    </section>
+                `);
+            }
+        } else {
+            // Class 6-10 logic
+            const medium = parts[3];
+            const section = parts[4];
+            const subjectId = parts[5];
+            const chapterId = parts[7];
+
+            if (chapterId) {
+                const subData = siteData.notes[classId][medium][section][subjectId];
+                const chapter = subData.chapters.find(ch => ch.id == chapterId);
+                render(`
+                    ${Breadcrumbs([
+                    { name: 'Home', link: '#/' },
+                    { name: `Class ${classId}`, link: `#/class/${classId}` },
+                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${medium}/${section}` },
+                    { name: subData.subjectName, link: `#/class/${classId}/${medium}/${section}/${subjectId}` },
+                    { name: chapter.title, link: '' }
+                ])}
+                    <section class="container">
+                        <div class="section-title"><h1>${chapter.title}</h1></div>
+                        <div class="pdf-viewer-container"><iframe src="${chapter.pdfUrl}#toolbar=0"></iframe></div>
+                        <div style="text-align: center; margin-bottom: 40px;"><a href="${chapter.pdfUrl}" class="btn btn-glow" download>Download PDF</a></div>
+                    </section>
+                `);
+            } else if (subjectId) {
+                const data = siteData.notes[classId][medium][section][subjectId];
+                const chaptersHtml = data.chapters.map(ch => ChapterItem(classId, subjectId, ch)).join('');
+                render(`
+                    ${Breadcrumbs([
+                    { name: 'Home', link: '#/' },
+                    { name: `Class ${classId}`, link: `#/class/${classId}` },
+                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${medium}/${section}` },
+                    { name: data.subjectName, link: '' }
+                ])}
+                    <section class="container">
+                        <div class="section-title"><h1>${data.subjectName} (${section})</h1><p>Class ${classId} - ${medium} Medium</p></div>
+                        <div class="grid">${chaptersHtml}</div>
+                    </section>
+                `);
+            } else if (section) {
+                const subjects = siteData.notes[classId][medium][section];
+                const subjectsHtml = Object.keys(subjects).map(id => SubjectCard(subjects[id], `#/class/${classId}/${medium}/${section}/${id}`)).join('');
+                render(`
+                    ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }, { name: `${medium} Medium`, link: '' }])}
+                    <section class="container">
+                        <div class="section-title"><h1>Select Subject</h1><p>Class ${classId} - ${medium} Medium</p></div>
+                        ${SectionTabs(section, `#/class/${classId}/${medium}`)}
+                        <div class="grid">${subjectsHtml}</div>
+                    </section>
+                `);
+            } else if (medium) {
+                window.location.hash = `#/class/${classId}/${medium}/Notes`;
+            } else {
+                const mediumsHtml = siteData.mediums.map(m => SelectionCard(m, m === 'Hindi' ? '✍️' : '📚', `#/class/${classId}/${m}`)).join('');
+                render(`
+                    ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: '' }])}
+                    <section class="container">
+                        <div class="section-title"><h1>Select Medium</h1><p>Choose your preferred language for Class ${classId}</p></div>
+                        <div class="grid">${mediumsHtml}</div>
+                    </section>
+                `);
+            }
+        }
     },
 
     admin: (view = 'stats') => {
@@ -311,7 +397,94 @@ const routes = {
                 </div>
             </section>
         `);
+    },
+
+    examPortal: () => {
+        const classes = ['6', '7', '8', '9', '10', '11', '12'];
+        render(ExamPortalSelection(classes));
+    },
+
+    examActive: (examId) => {
+        const exam = siteData.exams.find(e => e.id === examId);
+        if (!exam) {
+            window.location.hash = '#/exam-portal';
+            return;
+        }
+        render(ExamInterface(exam));
+        startExamTimer(15); // 15 minutes
     }
+};
+
+const startExamTimer = (minutes) => {
+    let seconds = minutes * 60;
+    const timerElement = document.getElementById('timer');
+    if (!timerElement) return;
+
+    const interval = setInterval(() => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        if (document.getElementById('timer')) {
+            document.getElementById('timer').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
+        } else {
+            clearInterval(interval);
+            return;
+        }
+
+        if (seconds <= 0) {
+            clearInterval(interval);
+            alert('Time Up! Submitting your exam automatically.');
+            const form = document.getElementById('examForm');
+            if (form) form.dispatchEvent(new Event('submit', { 'cancelable': true }));
+        }
+        seconds--;
+    }, 1000);
+    window.currentExamInterval = interval;
+};
+
+window.handleExamClassSelect = (cls) => {
+    if (['11', '12'].includes(cls)) {
+        document.body.insertAdjacentHTML('beforeend', StreamSelectorModal(cls));
+    } else {
+        const exam = siteData.exams.find(e => e.class === cls);
+        if (exam) {
+            window.location.hash = `#/exam/${exam.id}`;
+        } else {
+            alert(`Tests for Class ${cls} will be available soon!`);
+        }
+    }
+};
+
+window.handleExamStreamSelect = (cls, stream) => {
+    const exam = siteData.exams.find(e => e.class === cls && e.stream === stream);
+    const modal = document.getElementById('streamModal');
+    if (modal) modal.remove();
+
+    if (exam) {
+        window.location.hash = `#/exam/${exam.id}`;
+    } else {
+        alert(`Tests for Class ${cls} - ${stream} will be available soon!`);
+    }
+};
+
+window.handleExamSubmit = (event, examId) => {
+    event.preventDefault();
+    if (window.currentExamInterval) clearInterval(window.currentExamInterval);
+
+    const exam = siteData.exams.find(e => e.id === examId);
+    let score = 0;
+    const form = event.target;
+
+    exam.questions.forEach((q, i) => {
+        const selected = form.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && parseInt(selected.value) === q.correct) {
+            score++;
+        }
+    });
+
+    const percent = (score / exam.questions.length) * 100;
+    let message = percent >= 80 ? "Excellent Performance!" : percent >= 50 ? "Good Job! Keep it up." : "Needs Improvement. Practice more!";
+
+    document.body.insertAdjacentHTML('beforeend', ResultModal(score, exam.questions.length, message));
 };
 
 const animateStats = () => {
@@ -366,22 +539,17 @@ const router = () => {
         routes.admission();
     } else if (hash === '#/contact') {
         routes.contact();
+    } else if (hash === '#/exam-portal') {
+        routes.examPortal();
+    } else if (hash.startsWith('#/exam/')) {
+        const examId = hash.split('/')[2];
+        routes.examActive(examId);
     } else if (hash === '#courses-section' || hash === '#about-section' || hash === '#notes-section') {
         routes.home();
         setTimeout(() => window.scrollToSection(hash.substring(1)), 100);
     } else if (hash.startsWith('#/class/')) {
         const parts = hash.split('/');
-        const classId = parts[2];
-        const subjectId = parts[4];
-        const chapterId = parts[6];
-
-        if (chapterId) {
-            routes.viewer(classId, subjectId, chapterId);
-        } else if (subjectId) {
-            routes.chapters(classId, subjectId);
-        } else {
-            routes.subjects(classId);
-        }
+        routes.classSelection(parts);
     } else {
         routes.home();
         setTimeout(animateStats, 100);
@@ -617,3 +785,4 @@ const FeaturesSection = () => `
     </section>
 `;
 
+router();
