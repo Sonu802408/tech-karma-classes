@@ -627,4 +627,70 @@ export const ResultModal = (score, total, message) => `
     </div>
 `;
 
+export const AcademicAccordion = (data) => {
+    if (!data || Object.keys(data).length === 0) {
+        return `<div class="card" style="padding: 40px; text-align: center; color: var(--text-muted);">
+            <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
+            <p>Content for this section is being updated. Please check back soon!</p>
+        </div>`;
+    }
+
+    return `
+        <div class="academic-accordion" style="margin-top: 20px;">
+            ${Object.entries(data).map(([subject, chapters]) => {
+        const isNested = !Array.isArray(chapters) && typeof chapters === 'object';
+
+        return `
+                <div class="accordion-item card" style="margin-bottom: 15px; overflow: hidden; padding: 0; background: #0f172a; border: 1px solid var(--border-color);">
+                    <button class="accordion-header" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; padding: 20px 25px; background: none; border: none; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 1.1rem; font-weight: 600; text-align: left;">
+                        <span><i class="fas fa-book-open" style="margin-right: 15px; color: var(--accent-color);"></i> ${subject}</span>
+                        <i class="fas fa-chevron-down toggle-icon" style="transition: transform 0.3s ease;"></i>
+                    </button>
+                    <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0, 1, 0, 1); background: #0b1120;">
+                        <div style="padding: 10px 25px 25px;">
+                            ${isNested ?
+                Object.entries(chapters).map(([subCat, subChapters]) => `
+                                    <div style="margin-top: 15px;">
+                                        <h4 style="color: var(--accent-color); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">${subCat}</h4>
+                                        <ul style="list-style: none; padding-left: 10px;">
+                                            ${subChapters.map(ch => `
+                                                <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); display: flex; align-items: center;">
+                                                    <i class="fas fa-check-circle" style="font-size: 0.8rem; margin-right: 12px; color: #4ade80;"></i> ${ch}
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')
+                :
+                `<ul style="list-style: none;">
+                                    ${chapters.map(ch => `
+                                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); display: flex; align-items: center;">
+                                            <i class="fas fa-check-circle" style="font-size: 0.8rem; margin-right: 12px; color: #4ade80;"></i> ${ch}
+                                        </li>
+                                    `).join('')}
+                                </ul>`
+            }
+                        </div>
+                    </div>
+                </div>
+            `;
+    }).join('')}
+        </div>
+        <style>
+            .accordion-item.active .accordion-content {
+                max-height: 2000px !important;
+                transition: max-height 0.8s ease-in !important;
+            }
+            .accordion-item.active .toggle-icon {
+                transform: rotate(180deg);
+                color: var(--accent-color);
+            }
+            .accordion-header:hover {
+                background: rgba(255,255,255,0.03) !important;
+            }
+        </style>
+    `;
+};
+
+
 

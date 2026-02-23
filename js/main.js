@@ -1,18 +1,27 @@
 import siteData from './data.js';
-import { Navbar, Footer, ClassCard, SubjectCard, ChapterItem, Breadcrumbs, WhatsAppButton, CourseCard, EnrollmentForm, SignupForm, LoginForm, StudentDashboard, AdminLogin, AdminDashboard, PricingCard, BlogCard, BlogPostView, SelectionCard, SectionTabs, ExamPortalSelection, StreamSelectorModal, ExamInterface, ResultModal } from './components.js';
+import { Navbar, Footer, ClassCard, SubjectCard, ChapterItem, Breadcrumbs, WhatsAppButton, CourseCard, EnrollmentForm, SignupForm, LoginForm, StudentDashboard, AdminLogin, AdminDashboard, PricingCard, BlogCard, BlogPostView, SelectionCard, SectionTabs, ExamPortalSelection, StreamSelectorModal, ExamInterface, ResultModal, AcademicAccordion } from './components.js';
 
 
 const app = document.getElementById('app');
 
 const render = (html) => {
-    const user = JSON.parse(localStorage.getItem('currentUser'));
-    app.innerHTML = `
-        ${Navbar(user)}
-        <main>${html}</main>
-        ${Footer()}
-        ${WhatsAppButton()}
-    `;
-    window.scrollTo(0, 0);
+    try {
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+        app.innerHTML = `
+            ${Navbar(user)}
+            <main>${html}</main>
+            ${Footer()}
+            ${WhatsAppButton()}
+        `;
+        window.scrollTo(0, 0);
+    } catch (error) {
+        console.error('Rendering Error:', error);
+        app.innerHTML = `<div style="padding: 50px; color: white; text-align: center;">
+            <h2>Rendering Error</h2>
+            <p>Something went wrong while displaying the page. Please check the console for details.</p>
+            <button class="btn btn-glow" onclick="window.location.hash = '#/'">Back to Home</button>
+        </div>`;
+    }
 };
 
 window.scrollToSection = (sectionId) => {
@@ -44,7 +53,7 @@ const routes = {
         };
         const classesHtml = siteData.classGroups.map(group => ClassCard(group, classIcons[group])).join('');
 
-        const popularSubjectsHtml = siteData.subjects.map(sub => `
+        const popularSubjectsHtml = siteData.subjects.default.map(sub => `
             <div class="card" onclick="window.scrollToSection('classes-section'); alert('Please select a class to view ${sub.name} notes.')">
                 <div class="icon">${sub.icon}</div>
                 <h3>${sub.name}</h3>
@@ -281,19 +290,18 @@ const routes = {
                         <div class="grid">${chaptersHtml}</div>
                     </section>
                 `);
-            } else if (section) {
-                const subjects = siteData.notes[classId][medium][section];
-                const subjectsHtml = Object.keys(subjects).map(id => SubjectCard(subjects[id], `#/class/${classId}/${medium}/${section}/${id}`)).join('');
+            } else if (medium) {
+                const academicData = siteData.academicData[classId]?.[medium];
                 render(`
                     ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }, { name: `${medium} Medium`, link: '' }])}
                     <section class="container">
-                        <div class="section-title"><h1>Select Subject</h1><p>Class ${classId} - ${medium} Medium</p></div>
-                        ${SectionTabs(section, `#/class/${classId}/${medium}`)}
-                        <div class="grid">${subjectsHtml}</div>
+                        <div class="section-title">
+                            <h1>Academic Content</h1>
+                            <p>Class ${classId} - ${medium} Medium - Syllabus & Chapters</p>
+                        </div>
+                        ${AcademicAccordion(academicData)}
                     </section>
                 `);
-            } else if (medium) {
-                window.location.hash = `#/class/${classId}/${medium}/Notes`;
             } else {
                 const mediumsHtml = siteData.mediums.map(m => SelectionCard(m, m === 'Hindi' ? '✍️' : '📚', `#/class/${classId}/${m}`)).join('');
                 render(`
@@ -520,7 +528,7 @@ const animateStats = () => {
 const router = () => {
     const hash = window.location.hash || '#/';
 
-    if (hash === '#/') {
+    if (hash === '#/' || hash === '#' || !hash) {
         routes.home();
         setTimeout(animateStats, 100);
     } else if (hash === '#/login') {
