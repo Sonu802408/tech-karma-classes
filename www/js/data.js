@@ -333,8 +333,68 @@ const siteData = {
 };
 
 const realisticChapters = {
-    '9-maths': ['Real Numbers', 'Polynomials', 'Pair of Linear Equations', 'Quadratic Equations', 'Arithmetic Progressions'],
-    '10-maths': ['Probability', 'Statistics', 'Coordinate Geometry', 'Triangles', 'Introduction to Trigonometry'],
+    // Class 6
+    '6-maths': ['Knowing Our Numbers', 'Whole Numbers', 'Playing With Numbers', 'Basic Geometrical Ideas', 'Understanding Elementary Shapes', 'Integers', 'Fractions', 'Decimals', 'Data Handling', 'Mensuration', 'Algebra', 'Ratio and Proportion'],
+    '6-science': ['Components of Food', 'Sorting Materials and Groups', 'Separation of Substances', 'Getting to Know Plants', 'Body Movement', 'The Living Organisms and Their Surroundings', 'Motion and Measurement of Distances', 'Light, Shadows and Reflections', 'Electricity and Circuits', 'Fun with Magnets', 'Air Around Us'],
+    '6-sst': [
+        'History: What, Where, How and When?', 'History: From Hunting – Gathering to Growing Food', 'History: In the Earliest Cities', 'History: What Books and Burials Tell Us', 'History: Kingdoms, Kings and an Early Republic',
+        'Geography: The Earth in the Solar System', 'Geography: Globe: Latitudes and Longitudes', 'Geography: Motions of the Earth', 'Geography: Maps', 'Geography: Major Domains of the Earth',
+        'Civics: Understanding Diversity', 'Civics: Diversity and Discrimination', 'Civics: What is Government', 'Civics: Panchayati Raj'
+    ],
+    '6-english': ['Who Did Patrick\'s Homework?', 'How the Dog Found Himself a New Master!', 'Taro\'s Reward', 'An Indian – American Woman in Space: Kalpana Chawla', 'A Different Kind of School', 'Who I Am', 'Fair Play', 'A Game of Chance'],
+    '6-hindi': ['वह चिड़िया जो', 'बचपन', 'नादान दोस्त', 'चाँद से थोड़ी सी गप्पें', 'अक्षरों का महत्व', 'पार नज़र के', 'साथी हाथ बढ़ाना', 'ऐसे – ऐसे', 'टिकट एल्बम'],
+    '6-sanskrit': ['शब्दपरिचय – I', 'शब्दपरिचय – II', 'शब्दपरिचय – III', 'विद्यालय', 'वृक्षा', 'समुद्रतट', 'बकस्य प्रतीकार', 'सूक्ति तस्ताबाक'],
+
+    // Class 7
+    '7-maths': ['Integers', 'Fractions and Decimals', 'Data Handling', 'Simple Equations', 'Lines and Angles', 'The Triangle and its Properties', 'Comparing Quantities', 'Rational Numbers', 'Perimeter and Area', 'Algebraic Expressions', 'Exponents and Power', 'Symmetry', 'Visualising Solid Shapes'],
+    '7-science': ['Nutrition in Plants', 'Nutrition in Animals', 'Heat', 'Acids, Bases and Salts', 'Physical and Chemical Changes', 'Respiration in Organisms', 'Transportation in Animals and Plants', 'Reproduction in Plants', 'Motion and Time', 'Electric Current and its Effects', 'Light', 'Forests: Our Lifeline', 'Wastewater Story'],
+    '7-sst': [
+        'History: Tracing Changes Through a Thousand Years', 'History: New Kings and Kingdoms', 'History: The Delhi Sultans', 'History: The Mughal Empire',
+        'Geography: Environment', 'Geography: Inside Our Earth', 'Geography: Our Changing Earth', 'Geography: Air', 'Geography: Water',
+        'Civics: On Equality', 'Civics: Role of the Government in Health', 'Civics: How the State Government Works', 'Civics: Growing up as Boys and Girls'
+    ],
+    '7-english': ['Three Questions', 'A Gift of Chappals', 'Gopal and the Hilsa Fish', 'The Ashes That Made Trees Bloom', 'Quality', 'Expert Detectives', 'The Invention of Vita-Wonk', 'A Homage to Our Brave Soldiers'],
+    '7-hindi': ['हम पंछी उन्मुक्त गगन के', 'दादी माँ', 'हिमालय की बेटियाँ', 'कठपुतली', 'मिठाईवाला', 'रक्त और हमारा शरीर', 'पापा खो गये', 'शाम एक किसान'],
+    '7-sanskrit': ['सुभाषितानि', 'दुर्बुद्धि विनश्यति', 'स्वावलम्बनम', 'पण्डिता रमाबाई', 'सदाचार', 'संकल्प सिद्धिदायक', 'त्रिवर्ण ध्वज', 'अहमपि विद्यालयं गमिष्यामि'],
+
+    // Class 8
+    '8-maths': ['Rational Numbers', 'Linear Equations in One Variable', 'Understanding Quadrilaterals', 'Data Handling', 'Squares and Square Roots', 'Cubes and Cube Roots', 'Comparing Quantities', 'Algebraic Expressions and Identities', 'Mensuration', 'Exponents and Powers', 'Direct and Inverse Proportions', 'Factorisation', 'Introduction to Graphs'],
+    '8-science': ['Crop Production and Management', 'Microorganisms: Friend and Foe', 'Coal and Petroleum', 'Combustion and Flame', 'Conservation of Plants and Animals', 'Reproduction in Animals', 'Reaching the Age of Adolescence', 'Force and Pressure', 'Friction', 'Sound', 'Chemical Effects of Electric Current', 'Some Natural Phenomena', 'Light'],
+    '8-sst': [
+        'History: How, When and Where', 'History: From Trade to Territory', 'History: Ruling the Countryside', 'History: When People Rebel',
+        'Geography: Resources', 'Geography: Land, Soil, Water', 'Geography: Agriculture', 'Geography: Industries',
+        'Civics: The Indian Constitution', 'Civics: Understanding Secularism', 'Civics: Why do we need a Parliament?', 'Civics: Understanding Laws', 'Civics: Judiciary'
+    ],
+    '8-english': ['The Best Christmas Present in the World', 'The Tsunami', 'Glimpses of the Past', 'Bepin Choudhury\'s Lapse of Memory', 'The Summit Within', 'This is Jody\'s Fawn', 'A Visit to Cambridge', 'A Short Monsoon Diary'],
+    '8-hindi': ['ध्वनि', 'लाख की चूड़ियाँ', 'बस की यात्रा', 'दीवानों की हस्ती', 'चिट्ठियों की अनूठी दुनिया', 'भगवान के डाकिए', 'क्या निराश हुआ जाए', 'यह सबसे कठिन समय नहीं'],
+    '8-sanskrit': ['सुभाषितानि', 'बिलस्य वाणी न कदापि मे श्रुता', 'डिजीभारतम्', 'सदैव पुरतो निधेहि चरणम', 'कण्टकेनैव कण्टकम्', 'गृहं शून्यं सुतां विना'],
+
+    // Class 9
+    '9-maths': ['Number Systems', 'Polynomials', 'Coordinate Geometry', 'Linear Equations in Two Variables', 'Introduction to Euclid\'s Geometry', 'Lines and Angles', 'Triangles', 'Quadrilaterals', 'Circles', 'Heron\'s Formula', 'Surface Areas and Volumes', 'Statistics'],
+    '9-science': ['Matter in Our Surroundings', 'Is Matter Around Us Pure?', 'Atoms and Molecules', 'Structure of the Atom', 'The Fundamental Unit of Life', 'Tissues', 'Motion', 'Force and Laws of Motion', 'Gravitation', 'Work and Energy', 'Sound', 'Improvement in Food Resources'],
+    '9-sst': [
+        'History: The French Revolution', 'History: Socialism in Europe and the Russian Revolution', 'History: Nazism and the Rise of Hitler',
+        'Geography: India – Size and Location', 'Geography: Physical Features of India', 'Geography: Drainage', 'Geography: Climate',
+        'Civics: What is Democracy? Why Democracy?', 'Civics: Constitutional Design', 'Civics: Electoral Politics',
+        'Economics: People as Resource', 'Economics: Poverty as a Challenge', 'Economics: Food Security in India'
+    ],
+    '9-english': ['The Fun They Had', 'The Sound of Music', 'The Little Girl', 'A Truly Beautiful Mind', 'The Snake and the Mirror', 'My Childhood', 'Reach for the Top', 'Kathmandu', 'If I Were You'],
+    '9-hindi': ['दो बैलों की कथा', 'ल्हासा की ओर', 'उपभोक्तावाद की संस्कृति', 'साँवले सपनों की याद', 'प्रेमचंद के फटे जूते', 'मेरे बचपन के दिन'],
+    '9-it': ['Communication Skills', 'Self-Management Skills', 'ICT Skills', 'Entrepreneurial Skills', 'Green Skills', 'Digital Documentation', 'Electronic Spreadsheet', 'Database Management System'],
+
+    // Class 10
+    '10-maths': ['Real Numbers', 'Polynomials', 'Pair of Linear Equations', 'Quadratic Equations', 'Arithmetic Progressions', 'Coordinate Geometry', 'Triangles', 'Circles', 'Introduction to Trigonometry', 'Trigonometric Identities', 'Heights and Distances', 'Areas Related to Circles', 'Surface Areas and Volumes', 'Statistics', 'Probability'],
+    '10-science': ['Chemical Reactions and Equations', 'Acids, Bases and Salts', 'Metals and Non-metals', 'Carbon and its Compounds', 'Life Processes', 'Control and Coordination', 'How do Organisms Reproduce?', 'Heredity and Evolution', 'Light – Reflection and Refraction', 'The Human Eye and the Colourful World', 'Electricity', 'Magnetic Effects of Electric Current', 'Our Environment'],
+    '10-sst': [
+        'History: The Rise of Nationalism in Europe', 'History: Nationalism in India', 'History: The Making of a Global World', 'History: Print Culture and the Modern World',
+        'Geography: Resources and Development', 'Geography: Forest and Wildlife Resources', 'Geography: Water Resources', 'Geography: Agriculture', 'Geography: Minerals and Energy Resources',
+        'Civics: Power-sharing', 'Civics: Federalism', 'Civics: Gender, Religion and Caste', 'Civics: Political Parties', 'Civics: Outcomes of Democracy',
+        'Economics: Development', 'Economics: Sectors of the Indian Economy', 'Economics: Money and Credit', 'Economics: Globalisation and the Indian Economy'
+    ],
+    '10-english': ['A Letter to God', 'Nelson Mandela: Long Walk to Freedom', 'Two Stories about Flying', 'From the Diary of Anne Frank', 'Glimpses of India', 'Mijbil the Otter', 'Madam Rides the Bus', 'The Sermon at Benares', 'The Proposal'],
+    '10-hindi': ['पदों की व्याख्या', 'राम-लक्ष्मण-परशुराम संवाद', 'सवैये और कवित्त', 'आत्मकथ्य', 'उत्साह और अट नहीं रही', 'यह दंतुरित मुस्कान और फसल'],
+    '10-it': ['Digital Documentation (Advanced)', 'Electronic Spreadsheet (Advanced)', 'Database Management System', 'Maintain Health, Safety and Secure Working Environment'],
+
     '11-Science-physics': [
         'Physical World', 'Units and Measurements', 'Motion in a Straight Line',
         'Motion in a Plane', 'Laws of Motion', 'Work, Energy and Power',
