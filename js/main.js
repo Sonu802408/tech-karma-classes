@@ -205,7 +205,7 @@ const routes = {
                 `);
             } else if (subjectId) {
                 const data = siteData.notes[classId][stream][medium][section][subjectId];
-                const chaptersHtml = data.chapters.map(ch => ChapterItem(classId, subjectId, ch)).join('');
+                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index)).join('');
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
@@ -277,7 +277,7 @@ const routes = {
                 `);
             } else if (subjectId) {
                 const data = siteData.notes[classId][medium][section][subjectId];
-                const chaptersHtml = data.chapters.map(ch => ChapterItem(classId, subjectId, ch)).join('');
+                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index)).join('');
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
