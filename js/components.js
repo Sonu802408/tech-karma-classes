@@ -140,18 +140,18 @@ export const ChapterItem = (classId, subjectId, chapter, index, stream = null, m
         : `#/class/${classId}/${medium}/${subjectId}/chapter/${chapter.id}`;
 
     return `
-    <div class="card chapter-card">
-        <span class="chapter-badge">CH ${index + 1}</span>
-        <div style="text-align: left; width: 100%;">
-            <h3 style="margin-top: 10px;">${chapter.title}</h3>
-            <p style="margin-bottom: 25px; min-height: 60px;">${chapter.description}</p>
+    <div class="chapter-row">
+        <div class="chapter-number">${String(index + 1).padStart(2, '0')}</div>
+        <div class="chapter-info">
+            <h3>${chapter.title}</h3>
+            <p>${chapter.description}</p>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
-            <button class="btn btn-glow" onclick="window.location.hash = '${viewUrl}'">
-                <i class="far fa-eye"></i> View Notes
+        <div class="chapter-actions">
+            <button class="btn btn-chapter btn-glow" onclick="window.location.hash = '${viewUrl}'">
+                View Notes
             </button>
-            <a href="${chapter.pdfUrl}" class="btn btn-glow-orange" download>
-                <i class="fas fa-download"></i> Download PDF
+            <a href="${chapter.pdfUrl}" class="btn btn-chapter btn-glow-orange" style="background:#1e3a8a; color:white;" download>
+                PDF
             </a>
         </div>
     </div>

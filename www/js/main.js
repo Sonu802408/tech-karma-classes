@@ -208,7 +208,6 @@ const routes = {
                     window.location.hash = `#/class/${classId}/${stream}/${medium}`;
                     return;
                 }
-                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index, stream, medium)).join('');
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
