@@ -318,7 +318,42 @@ const siteData = {
 const realisticChapters = {
     '9-maths': ['Real Numbers', 'Polynomials', 'Pair of Linear Equations', 'Quadratic Equations', 'Arithmetic Progressions'],
     '10-maths': ['Probability', 'Statistics', 'Coordinate Geometry', 'Triangles', 'Introduction to Trigonometry'],
-    '11-Science-physics': ['Physical World', 'Units and Measurements', 'Motion in a Straight Line', 'Motion in a Plane', 'Laws of Motion'],
+    '11-Science-physics': [
+        'Physical World', 'Units and Measurements', 'Motion in a Straight Line',
+        'Motion in a Plane', 'Laws of Motion', 'Work, Energy and Power',
+        'System of Particles and Rotational Motion', 'Gravitation',
+        'Mechanical Properties of Solids', 'Mechanical Properties of Fluids',
+        'Thermal Properties of Matter', 'Thermodynamics', 'Kinetic Theory',
+        'Oscillations', 'Waves'
+    ],
+    '11-Science-chemistry': [
+        'Some Basic Concepts of Chemistry', 'Structure of Atom',
+        'Classification of Elements and Periodicity in Properties',
+        'Chemical Bonding and Molecular Structure', 'Thermodynamics',
+        'Equilibrium', 'Redox Reactions',
+        'Organic Chemistry – Some Basic Principles and Techniques',
+        'Hydrocarbons', 'The s-Block Elements', 'The p-Block Elements',
+        'Environmental Chemistry'
+    ],
+    '11-Science-maths': [
+        'Sets', 'Relations and Functions', 'Trigonometric Functions',
+        'Principle of Mathematical Induction', 'Complex Numbers and Quadratic Equations',
+        'Linear Inequalities', 'Permutations and Combinations', 'Binomial Theorem',
+        'Sequences and Series', 'Straight Lines', 'Conic Sections',
+        'Introduction to Three-Dimensional Geometry', 'Limits and Derivatives',
+        'Mathematical Reasoning', 'Statistics', 'Probability'
+    ],
+    '11-Science-biology': [
+        'The Living World', 'Biological Classification', 'Plant Kingdom',
+        'Animal Kingdom', 'Morphology of Flowering Plants', 'Anatomy of Flowering Plants',
+        'Structural Organisation in Animals', 'Cell – The Unit of Life', 'Biomolecules',
+        'Cell Cycle and Cell Division', 'Transport in Plants', 'Mineral Nutrition',
+        'Photosynthesis in Higher Plants', 'Respiration in Plants',
+        'Plant Growth and Development', 'Digestion and Absorption',
+        'Breathing and Exchange of Gases', 'Body Fluids and Circulation',
+        'Excretory Products and their Elimination', 'Locomotion and Movement',
+        'Neural Control and Coordination', 'Chemical Coordination and Integration'
+    ],
     '12-Science-physics': ['Electric Charges and Fields', 'Electrostatic Potential', 'Current Electricity', 'Moving Charges', 'Magnetism and Matter']
 };
 
