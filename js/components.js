@@ -152,10 +152,10 @@ export const SubjectCard = (subject, link) => `
     </div>
 `;
 
-export const ChapterItem = (classId, subjectId, chapter) => `
+export const ChapterItem = (classId, subjectId, chapter, index) => `
     <div class="card">
-        <div style="margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; font-weight: 600; color: var(--accent-color);">CHAPTER ${chapter.id}</div>
-        <h3>${chapter.title}</h3>
+        <div style="margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; font-weight: 600; color: var(--accent-color);">CHAPTER ${index + 1}</div>
+        <h3>${index + 1}. ${chapter.title}</h3>
         <p>${chapter.description}</p>
         <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: stretch;">
             <button class="btn btn-glow" onclick="window.location.hash = '#/class/${classId}/subject/${subjectId}/chapter/${chapter.id}'">
