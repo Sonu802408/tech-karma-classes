@@ -178,23 +178,22 @@ const routes = {
         const isHigherSec = ['11', '12'].includes(classId);
 
         if (isHigherSec) {
-            // Class 11/12 logic
+            // Class 11/12 logic: Class -> Stream -> Medium -> Subject -> Chapters
             const stream = parts[3];
             const medium = parts[4];
-            const section = parts[5];
-            const subjectId = parts[6];
-            const chapterId = parts[8];
+            const subjectId = parts[5];
+            const chapterId = parts[7];
 
             if (chapterId) {
-                const subData = siteData.notes[classId][stream][medium][section][subjectId];
+                const subData = siteData.notes[classId][stream][medium][subjectId];
                 const chapter = subData.chapters.find(ch => ch.id == chapterId);
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
                     { name: `Class ${classId}`, link: `#/class/${classId}` },
                     { name: stream, link: `#/class/${classId}/${stream}` },
-                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${stream}/${medium}/${section}` },
-                    { name: subData.subjectName, link: `#/class/${classId}/${stream}/${medium}/${section}/${subjectId}` },
+                    { name: medium, link: `#/class/${classId}/${stream}/${medium}` },
+                    { name: subData.subjectName, link: `#/class/${classId}/${stream}/${medium}/${subjectId}` },
                     { name: chapter.title, link: '' }
                 ])}
                     <section class="container">
@@ -204,34 +203,31 @@ const routes = {
                     </section>
                 `);
             } else if (subjectId) {
-                const data = siteData.notes[classId][stream][medium][section][subjectId];
-                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index)).join('');
+                const data = siteData.notes[classId][stream][medium][subjectId];
+                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index, stream, medium)).join('');
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
                     { name: `Class ${classId}`, link: `#/class/${classId}` },
                     { name: stream, link: `#/class/${classId}/${stream}` },
-                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${stream}/${medium}/${section}` },
+                    { name: medium, link: `#/class/${classId}/${stream}/${medium}` },
                     { name: data.subjectName, link: '' }
                 ])}
                     <section class="container">
-                        <div class="section-title"><h1>${data.subjectName} (${section})</h1><p>Class ${classId} - ${stream} - ${medium} Medium</p></div>
+                        <div class="section-title"><h1>${data.subjectName}</h1><p>Class ${classId} - ${stream} - ${medium} Medium</p></div>
                         <div class="grid">${chaptersHtml}</div>
                     </section>
                 `);
-            } else if (section) {
-                const subjects = siteData.notes[classId][stream][medium][section];
-                const subjectsHtml = Object.keys(subjects).map(id => SubjectCard(subjects[id], `#/class/${classId}/${stream}/${medium}/${section}/${id}`)).join('');
+            } else if (medium) {
+                const subjects = siteData.notes[classId][stream][medium];
+                const subjectsHtml = Object.keys(subjects).map(id => SubjectCard(subjects[id], `#/class/${classId}/${stream}/${medium}/${id}`)).join('');
                 render(`
                     ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }, { name: stream, link: `#/class/${classId}/${stream}` }, { name: `${medium} Medium`, link: '' }])}
                     <section class="container">
-                        <div class="section-title"><h1>Select Subject</h1><p>${classId} ${stream} - ${medium} Medium</p></div>
-                        ${SectionTabs(section, `#/class/${classId}/${stream}/${medium}`)}
+                        <div class="section-title"><h1>Select Subject</h1><p>Class ${classId} ${stream} - ${medium} Medium</p></div>
                         <div class="grid">${subjectsHtml}</div>
                     </section>
                 `);
-            } else if (medium) {
-                window.location.hash = `#/class/${classId}/${stream}/${medium}/Notes`;
             } else if (stream) {
                 const mediumsHtml = siteData.mediums.map(m => SelectionCard(m, m === 'Hindi' ? '✍️' : '📚', `#/class/${classId}/${stream}/${m}`)).join('');
                 render(`

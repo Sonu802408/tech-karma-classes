@@ -398,23 +398,20 @@ siteData.classGroups.forEach(cls => {
             siteData.notes[cls][stream] = {};
             siteData.mediums.forEach(medium => {
                 siteData.notes[cls][stream][medium] = {};
-                siteData.contentSections.forEach(section => {
-                    const subjectsList = siteData.subjects[stream] || siteData.subjects['default'];
-                    siteData.notes[cls][stream][medium][section] = {};
-                    subjectsList.forEach(sub => {
-                        const key = `${cls}-${stream}-${sub.id}`;
-                        const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
-                        siteData.notes[cls][stream][medium][section][sub.id] = {
-                            subjectName: sub.name,
-                            icon: sub.icon,
-                            chapters: chapterTitles.map((title, i) => ({
-                                id: i + 1,
-                                title: title,
-                                pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
-                                description: `Comprehensive ${section} for ${title} (${cls} ${stream} - ${medium} Medium).`
-                            }))
-                        };
-                    });
+                const subjectsList = siteData.subjects[stream] || siteData.subjects['default'];
+                subjectsList.forEach(sub => {
+                    const key = `${cls}-${stream}-${sub.id}`;
+                    const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
+                    siteData.notes[cls][stream][medium][sub.id] = {
+                        subjectName: sub.name,
+                        icon: sub.icon,
+                        chapters: chapterTitles.map((title, i) => ({
+                            id: i + 1,
+                            title: title,
+                            pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
+                            description: `Comprehensive resources for ${title} (${cls} ${stream} - ${medium} Medium).`
+                        }))
+                    };
                 });
             });
         });

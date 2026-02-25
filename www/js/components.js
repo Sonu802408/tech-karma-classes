@@ -152,13 +152,19 @@ export const SubjectCard = (subject, link) => `
     </div>
 `;
 
-export const ChapterItem = (classId, subjectId, chapter, index) => `
+export const ChapterItem = (classId, subjectId, chapter, index, stream = null, medium = null) => {
+    const isHigherSec = ['11', '12'].includes(classId);
+    const viewUrl = isHigherSec
+        ? `#/class/${classId}/${stream}/${medium}/${subjectId}/chapter/${chapter.id}`
+        : `#/class/${classId}/${medium}/Notes/${subjectId}/chapter/${chapter.id}`;
+
+    return `
     <div class="card">
         <div style="margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; font-weight: 600; color: var(--accent-color);">CHAPTER ${index + 1}</div>
         <h3>${index + 1}. ${chapter.title}</h3>
         <p>${chapter.description}</p>
         <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: stretch;">
-            <button class="btn btn-glow" onclick="window.location.hash = '#/class/${classId}/subject/${subjectId}/chapter/${chapter.id}'">
+            <button class="btn btn-glow" onclick="window.location.hash = '${viewUrl}'">
                 <i class="far fa-eye"></i> View Notes
             </button>
             <a href="${chapter.pdfUrl}" class="btn btn-glow-orange" style="background: #10b981; box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);" download>
@@ -167,6 +173,7 @@ export const ChapterItem = (classId, subjectId, chapter, index) => `
         </div>
     </div>
 `;
+};
 
 
 
