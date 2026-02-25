@@ -208,6 +208,7 @@ const routes = {
                     window.location.hash = `#/class/${classId}/${stream}/${medium}`;
                     return;
                 }
+                const chaptersHtml = data.chapters.map((ch, i) => ChapterItem(classId, subjectId, ch, i, stream, medium)).join('');
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
@@ -218,7 +219,7 @@ const routes = {
                 ])}
                     <section class="container">
                         <div class="section-title"><h1>${data.name}</h1><p>Class ${classId} - ${stream} - ${medium} Medium</p></div>
-                        <div class="grid">${chaptersHtml}</div>
+                        <div class="chapter-list">${chaptersHtml}</div>
                     </section>
                 `);
             } else if (medium) {
@@ -289,7 +290,7 @@ const routes = {
                 ])}
                     <section class="container">
                         <div class="section-title"><h1>${data.name}</h1><p>Class ${classId} - ${medium} Medium</p></div>
-                        <div class="grid">${chaptersHtml}</div>
+                        <div class="chapter-list">${chaptersHtml}</div>
                     </section>
                 `);
             } else if (medium) {
