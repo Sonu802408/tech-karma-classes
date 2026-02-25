@@ -11,6 +11,23 @@ const siteData = {
             { id: 'sst', name: 'Social Studies', icon: '🌍' },
             { id: 'hindi', name: 'Hindi', icon: '✍️' }
         ],
+        '6-8': [
+            { id: 'maths', name: 'Mathematics', icon: '📐' },
+            { id: 'science', name: 'Science', icon: '🔬' },
+            { id: 'english', name: 'English', icon: '📚' },
+            { id: 'hindi', name: 'Hindi', icon: '✍️' },
+            { id: 'sst', name: 'Social Science', icon: '🌍' },
+            { id: 'sanskrit', name: 'Sanskrit', icon: '🕉️' },
+            { id: 'computer', name: 'Computer / IT', icon: '💻' }
+        ],
+        '9-10': [
+            { id: 'maths', name: 'Mathematics', icon: '📐' },
+            { id: 'science', name: 'Science', icon: '🔬' },
+            { id: 'english', name: 'English', icon: '📚' },
+            { id: 'hindi', name: 'Hindi', icon: '✍️' },
+            { id: 'sst', name: 'Social Science', icon: '🌍' },
+            { id: 'it', name: 'Information Technology', icon: '💻' }
+        ],
         'Science': [
             { id: 'physics', name: 'Physics', icon: '⚛️' },
             { id: 'chemistry', name: 'Chemistry', icon: '🧪' },
@@ -418,23 +435,22 @@ siteData.classGroups.forEach(cls => {
     } else {
         siteData.mediums.forEach(medium => {
             siteData.notes[cls][medium] = {};
-            siteData.contentSections.forEach(section => {
-                const subjectsList = siteData.subjects['default'];
-                siteData.notes[cls][medium][section] = {};
-                subjectsList.forEach(sub => {
-                    const key = `${cls}-${sub.id}`;
-                    const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
-                    siteData.notes[cls][medium][section][sub.id] = {
-                        name: sub.name,
-                        icon: sub.icon,
-                        chapters: chapterTitles.map((title, i) => ({
-                            id: i + 1,
-                            title: title,
-                            pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
-                            description: `Comprehensive ${section} for ${title} (${cls} - ${medium} Medium).`
-                        }))
-                    };
-                });
+            const group = ['6', '7', '8'].includes(cls) ? '6-8' : '9-10';
+            const subjectsList = siteData.subjects[group] || siteData.subjects['default'];
+
+            subjectsList.forEach(sub => {
+                const key = `${cls}-${sub.id}`;
+                const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
+                siteData.notes[cls][medium][sub.id] = {
+                    name: sub.name,
+                    icon: sub.icon,
+                    chapters: chapterTitles.map((title, i) => ({
+                        id: i + 1,
+                        title: title,
+                        pdfUrl: `https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf`,
+                        description: `Comprehensive resources for ${title} (Class ${cls} - ${medium} Medium).`
+                    }))
+                };
             });
         });
     }

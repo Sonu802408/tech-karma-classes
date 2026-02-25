@@ -252,21 +252,20 @@ const routes = {
                 `);
             }
         } else {
-            // Class 6-10 logic
+            // Class 6-10 logic: Class -> Medium -> Subject -> Chapters
             const medium = parts[3];
-            const section = parts[4];
-            const subjectId = parts[5];
-            const chapterId = parts[7];
+            const subjectId = parts[4];
+            const chapterId = parts[6];
 
             if (chapterId) {
-                const subData = siteData.notes[classId][medium][section][subjectId];
+                const subData = siteData.notes[classId][medium][subjectId];
                 const chapter = subData.chapters.find(ch => ch.id == chapterId);
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
                     { name: `Class ${classId}`, link: `#/class/${classId}` },
-                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${medium}/${section}` },
-                    { name: subData.subjectName, link: `#/class/${classId}/${medium}/${section}/${subjectId}` },
+                    { name: `${medium} Medium`, link: `#/class/${classId}/${medium}` },
+                    { name: subData.name, link: `#/class/${classId}/${medium}/${subjectId}` },
                     { name: chapter.title, link: '' }
                 ])}
                     <section class="container">
@@ -276,30 +275,32 @@ const routes = {
                     </section>
                 `);
             } else if (subjectId) {
-                const data = siteData.notes[classId][medium][section][subjectId];
-                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index)).join('');
+                const data = siteData.notes[classId][medium][subjectId];
+                if (!data) {
+                    window.location.hash = `#/class/${classId}/${medium}`;
+                    return;
+                }
+                const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index, null, medium)).join('');
                 render(`
                     ${Breadcrumbs([
                     { name: 'Home', link: '#/' },
                     { name: `Class ${classId}`, link: `#/class/${classId}` },
-                    { name: `${medium} - ${section}`, link: `#/class/${classId}/${medium}/${section}` },
-                    { name: data.subjectName, link: '' }
+                    { name: `${medium} Medium`, link: `#/class/${classId}/${medium}` },
+                    { name: data.name, link: '' }
                 ])}
                     <section class="container">
-                        <div class="section-title"><h1>${data.subjectName} (${section})</h1><p>Class ${classId} - ${medium} Medium</p></div>
+                        <div class="section-title"><h1>${data.name}</h1><p>Class ${classId} - ${medium} Medium</p></div>
                         <div class="grid">${chaptersHtml}</div>
                     </section>
                 `);
             } else if (medium) {
-                const academicData = siteData.academicData[classId]?.[medium];
+                const subjects = siteData.notes[classId][medium];
+                const subjectsHtml = Object.keys(subjects).map(id => SubjectCard(subjects[id], `#/class/${classId}/${medium}/${id}`)).join('');
                 render(`
                     ${Breadcrumbs([{ name: 'Home', link: '#/' }, { name: `Class ${classId}`, link: `#/class/${classId}` }, { name: `${medium} Medium`, link: '' }])}
                     <section class="container">
-                        <div class="section-title">
-                            <h1>Academic Content</h1>
-                            <p>Class ${classId} - ${medium} Medium - Syllabus & Chapters</p>
-                        </div>
-                        ${AcademicAccordion(academicData)}
+                        <div class="section-title"><h1>Select Subject</h1><p>Class ${classId} - ${medium} Medium - CBSE Curriculum</p></div>
+                        <div class="grid">${subjectsHtml}</div>
                     </section>
                 `);
             } else {
