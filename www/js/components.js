@@ -1,4 +1,16 @@
 export const Navbar = (user = null) => `
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-bar-info">
+                <a href="tel:+918130550381"><i class="fas fa-phone"></i> +91 81305 50381</a>
+                <a href="mailto:sonuk802408@gmail.com"><i class="fas fa-envelope"></i> sonuk802408@gmail.com</a>
+            </div>
+            <div class="top-bar-social">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
     <header>
         <div class="container">
             <nav>
@@ -15,7 +27,7 @@ export const Navbar = (user = null) => `
                 <ul class="nav-links">
                     <li><a href="#/">Home</a></li>
                     <li class="dropdown">
-                        <a href="#/" class="dropbtn">Classes <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="javascript:void(0)" class="dropbtn">Study Material <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
                         <div class="dropdown-content">
                             <a href="#/class/6">Class 6</a>
                             <a href="#/class/7">Class 7</a>
@@ -27,24 +39,19 @@ export const Navbar = (user = null) => `
                         </div>
                     </li>
                     <li class="dropdown">
-                        <a href="#/" class="dropbtn">Programming <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
+                        <a href="javascript:void(0)" class="dropbtn">Computer Courses <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i></a>
                         <div class="dropdown-content">
-                            <a href="#courses-section">Python</a>
-                            <a href="#courses-section">C</a>
-                            <a href="#courses-section">C++</a>
-                            <a href="#courses-section">Java</a>
-                            <a href="#courses-section">DSA</a>
-                            <a href="#courses-section">AI</a>
-                            <a href="#courses-section">ML</a>
+                            <a href="#/courses">All Courses</a>
+                            <a href="#/courses/programming">Programming</a>
+                            <a href="#/courses/basics">Computer Basics</a>
                         </div>
                     </li>
-                    <li><a href="#/admission" style="color: var(--accent-color); font-weight: 600;">Admission</a></li>
-                    <li><a href="#notes-section">Notes</a></li>
+                    <li><a href="#/exam-portal" style="color: var(--accent-color); font-weight: 600;"><i class="fas fa-edit"></i> Exam Portal</a></li>
+                    <li><a href="#/admission">Admission</a></li>
                     ${user ? `
-                        <li><a href="#/dashboard" class="btn" style="padding: 10px 20px;">Dashboard</a></li>
-                        <li><a href="javascript:void(0)" onclick="window.handleLogout()" style="color: var(--text-muted);">Logout</a></li>
+                        <li><a href="#/dashboard" class="btn btn-glow" style="padding: 10px 20px;">Dashboard</a></li>
                     ` : `
-                        <li><a href="#/login" class="btn" style="padding: 10px 20px;">Login</a></li>
+                        <li><a href="#/login" class="btn btn-glow" style="padding: 10px 20px;">Login</a></li>
                     `}
                 </ul>
             </nav>
@@ -110,19 +117,45 @@ export const CourseCard = (course) => `
 
 
 
-export const SubjectCard = (classId, subject) => `
-    <div class="card" onclick="window.location.hash = '#/class/${classId}/subject/${subject.id}'">
-        <div class="icon">${subject.icon}</div>
-        <h3>${subject.name}</h3>
-        <p>Unlock detailed chapter-wise notes for ${subject.name}.</p>
-        <button class="btn">View Chapters</button>
+export const SelectionCard = (title, icon, link, color = 'var(--primary-color)') => `
+    <div class="card selection-card" onclick="window.location.hash = '${link}'" style="border-top: 4px solid ${color};">
+        <div class="icon" style="font-size: 2.5rem; margin-bottom: 15px;">${icon}</div>
+        <h3 style="margin-bottom: 10px;">${title}</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted);">Explore high-quality resources for ${title}.</p>
     </div>
 `;
 
-export const ChapterItem = (classId, subjectId, chapter) => `
+export const SectionTabs = (activeSection, baseUrl) => {
+    const sections = ['Notes', 'NCERT Solutions', 'MCQ', 'Books', 'Sample Papers'];
+    return `
+        <div class="section-tabs-container card" style="padding: 10px; margin-bottom: 30px; display: flex; gap: 10px; overflow-x: auto; white-space: nowrap; background: #0b1120;">
+            ${sections.map(s => {
+        const isActive = s === activeSection;
+        return `
+                    <button class="btn ${isActive ? 'btn-glow' : 'btn-outline'}" 
+                            onclick="window.location.hash = '${baseUrl}/${s}'"
+                            style="padding: 8px 15px; font-size: 0.85rem; ${!isActive ? 'background:transparent; border:1px solid var(--border-color);' : ''}">
+                        ${s}
+                    </button>
+                `;
+    }).join('')}
+        </div>
+    `;
+};
+
+export const SubjectCard = (subject, link) => `
+    <div class="card" onclick="window.location.hash = '${link}'">
+        <div class="icon">${subject.icon}</div>
+        <h3>${subject.name}</h3>
+        <p>Unlock detailed chapter-wise resources for ${subject.name}.</p>
+        <button class="btn btn-glow" style="padding: 8px 20px; font-size: 0.85rem; margin-top: 15px;">Explore</button>
+    </div>
+`;
+
+export const ChapterItem = (classId, subjectId, chapter, index) => `
     <div class="card">
-        <div style="margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; font-weight: 600; color: var(--accent-color);">CHAPTER ${chapter.id}</div>
-        <h3>${chapter.title}</h3>
+        <div style="margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; font-weight: 600; color: var(--accent-color);">CHAPTER ${index + 1}</div>
+        <h3>${index + 1}. ${chapter.title}</h3>
         <p>${chapter.description}</p>
         <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: stretch;">
             <button class="btn btn-glow" onclick="window.location.hash = '#/class/${classId}/subject/${subjectId}/chapter/${chapter.id}'">
@@ -521,5 +554,143 @@ export const WhatsAppButton = () => `
         <i class="fab fa-whatsapp"></i>
     </a>
 `;
+
+export const ExamPortalSelection = (classes) => `
+    <div class="exam-portal-entry container" style="margin-top: 50px; margin-bottom: 80px;">
+        <div class="section-title">
+            <h1>Exam Portal</h1>
+            <p>Select your class to begin the assessment</p>
+        </div>
+        <div class="grid">
+            ${classes.map(cls => `
+                <div class="card" onclick="window.handleExamClassSelect('${cls}')" style="padding: 40px;">
+                    <div class="icon" style="font-size: 3rem;">📝</div>
+                    <h2>Class ${cls}</h2>
+                    <p>Standardized tests for Class ${cls} curriculum.</p>
+                </div>
+            `).join('')}
+        </div>
+    </div>
+`;
+
+export const StreamSelectorModal = (cls) => `
+    <div id="streamModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 2000;">
+        <div class="card" style="max-width: 500px; width: 90%; padding: 40px; text-align: center;">
+            <h2>Select Your Stream</h2>
+            <p style="margin-bottom: 30px; color: var(--text-muted);">Please choose a stream for Class ${cls} exam.</p>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn btn-glow" onclick="window.handleExamStreamSelect('${cls}', 'Science')">Science</button>
+                <button class="btn btn-glow" onclick="window.handleExamStreamSelect('${cls}', 'Commerce')">Commerce</button>
+                <button class="btn btn-glow" onclick="window.handleExamStreamSelect('${cls}', 'Arts')">Arts</button>
+                <button class="btn btn-outline" style="margin-top: 20px;" onclick="document.getElementById('streamModal').remove()">Cancel</button>
+            </div>
+        </div>
+    </div>
+`;
+
+export const ExamInterface = (exam) => `
+    <div class="exam-interface container" style="margin-top: 50px; margin-bottom: 80px; max-width: 800px;">
+        <div class="card" style="padding: 40px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
+                <h2>${exam.title}</h2>
+                <div style="font-weight: 600; color: var(--primary-color);">Time Remaining: <span id="timer">15:00</span></div>
+            </div>
+            <form id="examForm" onsubmit="window.handleExamSubmit(event, '${exam.id}')">
+                ${exam.questions.map((q, qIndex) => `
+                    <div class="question-block" style="margin-bottom: 40px; text-align: left;">
+                        <h3 style="margin-bottom: 20px; font-size: 1.1rem; color: var(--text-main);">Q${qIndex + 1}. ${q.q}</h3>
+                        <div style="display: grid; gap: 12px;">
+                            ${q.a.map((opt, oIndex) => `
+                                <label style="display: flex; align-items: center; gap: 15px; padding: 15px; background: #0b1120; border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; transition: var(--transition);">
+                                    <input type="radio" name="q${qIndex}" value="${oIndex}" required style="width: 20px; height: 20px; cursor: pointer;">
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('')}
+                <button type="submit" class="btn btn-glow" style="width: 100%; padding: 18px; font-size: 1.1rem;">Finish Exam & View Result</button>
+            </form>
+        </div>
+    </div>
+`;
+
+export const ResultModal = (score, total, message) => `
+    <div id="resultModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 2000;">
+        <div class="card" style="max-width: 450px; width: 90%; padding: 50px; text-align: center; border-top: 5px solid var(--primary-color);">
+            <div style="font-size: 4rem; margin-bottom: 20px;">${score / total >= 0.5 ? '🎉' : '📚'}</div>
+            <h2 style="margin-bottom: 15px; font-size: 2rem;">Your Result</h2>
+            <div style="font-size: 3rem; font-weight: 800; color: var(--accent-color); margin-bottom: 10px;">${score} / ${total}</div>
+            <p style="color: var(--text-muted); margin-bottom: 30px;">${message}</p>
+            <button class="btn btn-glow" onclick="window.location.hash = '#/exam-portal'" style="width: 100%;">Back to Portal</button>
+        </div>
+    </div>
+`;
+
+export const AcademicAccordion = (data) => {
+    if (!data || Object.keys(data).length === 0) {
+        return `<div class="card" style="padding: 40px; text-align: center; color: var(--text-muted);">
+            <i class="fas fa-folder-open" style="font-size: 3rem; margin-bottom: 20px; display: block;"></i>
+            <p>Content for this section is being updated. Please check back soon!</p>
+        </div>`;
+    }
+
+    return `
+        <div class="academic-accordion" style="margin-top: 20px;">
+            ${Object.entries(data).map(([subject, chapters]) => {
+        const isNested = !Array.isArray(chapters) && typeof chapters === 'object';
+
+        return `
+                <div class="accordion-item card" style="margin-bottom: 15px; overflow: hidden; padding: 0; background: #0f172a; border: 1px solid var(--border-color);">
+                    <button class="accordion-header" onclick="this.parentElement.classList.toggle('active')" style="width: 100%; padding: 20px 25px; background: none; border: none; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 1.1rem; font-weight: 600; text-align: left;">
+                        <span><i class="fas fa-book-open" style="margin-right: 15px; color: var(--accent-color);"></i> ${subject}</span>
+                        <i class="fas fa-chevron-down toggle-icon" style="transition: transform 0.3s ease;"></i>
+                    </button>
+                    <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0, 1, 0, 1); background: #0b1120;">
+                        <div style="padding: 10px 25px 25px;">
+                            ${isNested ?
+                Object.entries(chapters).map(([subCat, subChapters]) => `
+                                    <div style="margin-top: 15px;">
+                                        <h4 style="color: var(--accent-color); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">${subCat}</h4>
+                                        <ul style="list-style: none; padding-left: 10px;">
+                                            ${subChapters.map(ch => `
+                                                <li style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); display: flex; align-items: center;">
+                                                    <i class="fas fa-check-circle" style="font-size: 0.8rem; margin-right: 12px; color: #4ade80;"></i> ${ch}
+                                                </li>
+                                            `).join('')}
+                                        </ul>
+                                    </div>
+                                `).join('')
+                :
+                `<ul style="list-style: none;">
+                                    ${chapters.map(ch => `
+                                        <li style="padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); display: flex; align-items: center;">
+                                            <i class="fas fa-check-circle" style="font-size: 0.8rem; margin-right: 12px; color: #4ade80;"></i> ${ch}
+                                        </li>
+                                    `).join('')}
+                                </ul>`
+            }
+                        </div>
+                    </div>
+                </div>
+            `;
+    }).join('')}
+        </div>
+        <style>
+            .accordion-item.active .accordion-content {
+                max-height: 2000px !important;
+                transition: max-height 0.8s ease-in !important;
+            }
+            .accordion-item.active .toggle-icon {
+                transform: rotate(180deg);
+                color: var(--accent-color);
+            }
+            .accordion-header:hover {
+                background: rgba(255,255,255,0.03) !important;
+            }
+        </style>
+    `;
+};
+
 
 
