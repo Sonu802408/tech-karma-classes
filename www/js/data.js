@@ -403,7 +403,7 @@ siteData.classGroups.forEach(cls => {
                     const key = `${cls}-${stream}-${sub.id}`;
                     const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
                     siteData.notes[cls][stream][medium][sub.id] = {
-                        subjectName: sub.name,
+                        name: sub.name,
                         icon: sub.icon,
                         chapters: chapterTitles.map((title, i) => ({
                             id: i + 1,
@@ -425,7 +425,7 @@ siteData.classGroups.forEach(cls => {
                     const key = `${cls}-${sub.id}`;
                     const chapterTitles = realisticChapters[key] || Array.from({ length: 5 }, (_, i) => `Chapter ${i + 1}: ${sub.name} Topic`);
                     siteData.notes[cls][medium][section][sub.id] = {
-                        subjectName: sub.name,
+                        name: sub.name,
                         icon: sub.icon,
                         chapters: chapterTitles.map((title, i) => ({
                             id: i + 1,

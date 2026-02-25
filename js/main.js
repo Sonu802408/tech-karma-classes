@@ -193,7 +193,7 @@ const routes = {
                     { name: `Class ${classId}`, link: `#/class/${classId}` },
                     { name: stream, link: `#/class/${classId}/${stream}` },
                     { name: medium, link: `#/class/${classId}/${stream}/${medium}` },
-                    { name: subData.subjectName, link: `#/class/${classId}/${stream}/${medium}/${subjectId}` },
+                    { name: subData.name, link: `#/class/${classId}/${stream}/${medium}/${subjectId}` },
                     { name: chapter.title, link: '' }
                 ])}
                     <section class="container">
@@ -204,6 +204,10 @@ const routes = {
                 `);
             } else if (subjectId) {
                 const data = siteData.notes[classId][stream][medium][subjectId];
+                if (!data) {
+                    window.location.hash = `#/class/${classId}/${stream}/${medium}`;
+                    return;
+                }
                 const chaptersHtml = data.chapters.map((ch, index) => ChapterItem(classId, subjectId, ch, index, stream, medium)).join('');
                 render(`
                     ${Breadcrumbs([
@@ -211,10 +215,10 @@ const routes = {
                     { name: `Class ${classId}`, link: `#/class/${classId}` },
                     { name: stream, link: `#/class/${classId}/${stream}` },
                     { name: medium, link: `#/class/${classId}/${stream}/${medium}` },
-                    { name: data.subjectName, link: '' }
+                    { name: data.name, link: '' }
                 ])}
                     <section class="container">
-                        <div class="section-title"><h1>${data.subjectName}</h1><p>Class ${classId} - ${stream} - ${medium} Medium</p></div>
+                        <div class="section-title"><h1>${data.name}</h1><p>Class ${classId} - ${stream} - ${medium} Medium</p></div>
                         <div class="grid">${chaptersHtml}</div>
                     </section>
                 `);
