@@ -99,56 +99,37 @@ export const ClassCard = (classNum, icon) => `
     <div class="card" onclick="window.location.hash = '#/class/${classNum}'">
         <div class="icon">${icon || '🎓'}</div>
         <h3>Class ${classNum}</h3>
-        <p>Expertly curated notes and study materials for students in Class ${classNum}.</p>
-        <button class="btn">View Subjects</button>
+        <p>Comprehensive technical resources and exam preparation for Class ${classNum}.</p>
+        <button class="btn btn-glow" style="width: 100%;">View Subjects</button>
     </div>
 `;
 
 
 export const CourseCard = (course) => `
-    <div class="card" onclick="alert('Course details for ${course.name} coming soon!')">
+    <div class="card" onclick="alert('Course details coming soon!')">
         <div class="icon">${course.icon}</div>
         <h3>${course.name}</h3>
         <p>${course.description}</p>
-        <button class="btn">View Details</button>
+        <button class="btn btn-glow" style="width: 100%;">Details</button>
     </div>
 `;
-
-
 
 
 export const SelectionCard = (title, icon, link, color = 'var(--primary-color)') => `
-    <div class="card selection-card" onclick="window.location.hash = '${link}'" style="border-top: 4px solid ${color};">
-        <div class="icon" style="font-size: 2.5rem; margin-bottom: 15px;">${icon}</div>
-        <h3 style="margin-bottom: 10px;">${title}</h3>
-        <p style="font-size: 0.9rem; color: var(--text-muted);">Explore high-quality resources for ${title}.</p>
+    <div class="card selection-card" onclick="window.location.hash = '${link}'">
+        <div class="icon">${icon}</div>
+        <h3>${title}</h3>
+        <p>Explore specialized technical content for ${title}.</p>
+        <button class="btn btn-glow" style="width: 100%;">Select</button>
     </div>
 `;
-
-export const SectionTabs = (activeSection, baseUrl) => {
-    const sections = ['Notes', 'NCERT Solutions', 'MCQ', 'Books', 'Sample Papers'];
-    return `
-        <div class="section-tabs-container card" style="padding: 10px; margin-bottom: 30px; display: flex; gap: 10px; overflow-x: auto; white-space: nowrap; background: #0b1120;">
-            ${sections.map(s => {
-        const isActive = s === activeSection;
-        return `
-                    <button class="btn ${isActive ? 'btn-glow' : 'btn-outline'}" 
-                            onclick="window.location.hash = '${baseUrl}/${s}'"
-                            style="padding: 8px 15px; font-size: 0.85rem; ${!isActive ? 'background:transparent; border:1px solid var(--border-color);' : ''}">
-                        ${s}
-                    </button>
-                `;
-    }).join('')}
-        </div>
-    `;
-};
 
 export const SubjectCard = (subject, link) => `
     <div class="card" onclick="window.location.hash = '${link}'">
         <div class="icon">${subject.icon}</div>
         <h3>${subject.name}</h3>
-        <p>Unlock detailed chapter-wise resources for ${subject.name}.</p>
-        <button class="btn btn-glow" style="padding: 8px 20px; font-size: 0.85rem; margin-top: 15px;">Explore</button>
+        <p>Unlock detailed technical notes and solutions for ${subject.name}.</p>
+        <button class="btn btn-glow" style="width: 100%;">Explore</button>
     </div>
 `;
 
@@ -156,18 +137,20 @@ export const ChapterItem = (classId, subjectId, chapter, index, stream = null, m
     const isHigherSec = ['11', '12'].includes(classId);
     const viewUrl = isHigherSec
         ? `#/class/${classId}/${stream}/${medium}/${subjectId}/chapter/${chapter.id}`
-        : `#/class/${classId}/${medium}/Notes/${subjectId}/chapter/${chapter.id}`;
+        : `#/class/${classId}/${medium}/${subjectId}/chapter/${chapter.id}`;
 
     return `
-    <div class="card">
-        <div style="margin-bottom: 15px; opacity: 0.7; font-size: 0.9rem; font-weight: 600; color: var(--accent-color);">CHAPTER ${index + 1}</div>
-        <h3>${index + 1}. ${chapter.title}</h3>
-        <p>${chapter.description}</p>
-        <div style="margin-top: 25px; display: flex; flex-direction: column; gap: 12px; align-items: stretch;">
+    <div class="card chapter-card">
+        <span class="chapter-badge">CH ${index + 1}</span>
+        <div style="text-align: left; width: 100%;">
+            <h3 style="margin-top: 10px;">${chapter.title}</h3>
+            <p style="margin-bottom: 25px; min-height: 60px;">${chapter.description}</p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
             <button class="btn btn-glow" onclick="window.location.hash = '${viewUrl}'">
                 <i class="far fa-eye"></i> View Notes
             </button>
-            <a href="${chapter.pdfUrl}" class="btn btn-glow-orange" style="background: #10b981; box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);" download>
+            <a href="${chapter.pdfUrl}" class="btn btn-glow-orange" download>
                 <i class="fas fa-download"></i> Download PDF
             </a>
         </div>
